@@ -70,7 +70,7 @@ public class DesktopLauncher extends JFrame{
 				Board board = new Board(i,j);
 				BoardView boardView =  new BoardView(board);
 
-				GameController gameController = new GameController(boardView.layout, board);
+				GameController gameController = new GameController(boardView.layout, board, 2);
 				gameController.currentPlayer = new HumanPlayer("RED");
 				gameController.otherPlayer= new HumanPlayer("BLUE");
 				boardView.setListener(gameController);
@@ -153,13 +153,19 @@ public class DesktopLauncher extends JFrame{
 		applyButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int i;
+				int i,j;
 				if(bButton.isSelected()){
 					i=1;
 				}else{
 					i=0;
 				}
-				remakePanel(i);
+				if(yButton.isSelected()){
+					j=1;
+				}else{
+					j=0;
+				}
+
+				remakePanel(i, j);
 			}
 		});
 		gc.weighty = 0.5;
@@ -174,20 +180,32 @@ public class DesktopLauncher extends JFrame{
 		opt.setBorder(new TitledBorder(new EtchedBorder(), "Game Options", TitledBorder.CENTER, TitledBorder.CENTER));
 	}
 
-	public void remakePanel(int i){
+	public void remakePanel(int player, int gController){
 		remove(top);
 		Board board = new Board(boardW,boardH);
 		BoardView boardView =  new BoardView(board);
 
-		GameController gameController = new GameController(boardView.layout, board);
-		if(i==1){
+		if(player==1 && gController == 0){
+			GameController gameController = new GameController(boardView.layout, board, 2);
 			gameController.currentPlayer = new HumanPlayer("BLUE");
 			gameController.otherPlayer = new HumanPlayer("RED");
-		}else {
+			boardView.setListener(gameController);
+		}else if(player==0 && gController == 0){
+			GameController gameController = new GameController(boardView.layout, board, 2);
 			gameController.currentPlayer = new HumanPlayer("RED");
 			gameController.otherPlayer = new HumanPlayer("BLUE");
+			boardView.setListener(gameController);
+		}else if (player==1 && gController == 1) {
+			GameController gameController = new GameController(boardView.layout, board, 0);
+			gameController.currentPlayer = new HumanPlayer("BLUE");
+			gameController.otherPlayer = new HumanPlayer("RED");
+			boardView.setListener(gameController);
+		}else {
+			GameController gameController = new GameController(boardView.layout, board, 0);
+			gameController.currentPlayer = new HumanPlayer("RED");
+			gameController.otherPlayer = new HumanPlayer("BLUE");
+			boardView.setListener(gameController);
 		}
-		boardView.setListener(gameController);
 
 		screen = new JPanel();
 		screen.setLayout(new BorderLayout());

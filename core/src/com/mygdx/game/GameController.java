@@ -15,15 +15,17 @@ public class GameController {
 
     public AbstractPlayer currentPlayer;
     public AbstractPlayer otherPlayer;
+    private int turnCounter; //Used for swap rule
 
     private Board board;
     private Layout layout;
     private ArrayList<Vector3> visited;
 
-    public GameController(Layout layout, Board board) {
+    public GameController(Layout layout, Board board, int tCounter) {
 
         this.layout = layout;
         this.board = board;
+        turnCounter = tCounter;
     }
 
     public void click(int x, int y) {
@@ -31,7 +33,18 @@ public class GameController {
         Vector3 coord = layout.pixelToVector3(new Point(x, y));
         Hex h = board.map.get(coord);
 
-        if (h != null && h.getOwner() == null) {
+        if (h != null && h.getOwner() != null && turnCounter == 1) {
+            h.setOwner(currentPlayer);
+
+            if (checkEnd(coord))
+                System.out.println(currentPlayer + " WINS!");
+
+            AbstractPlayer temp = currentPlayer;
+            currentPlayer = otherPlayer;
+            otherPlayer = temp;
+            turnCounter++;
+        }else if (h != null && h.getOwner() == null) {
+            turnCounter++;
 
             h.setOwner(currentPlayer);
 

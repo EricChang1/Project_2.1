@@ -30,6 +30,7 @@ public class GameController {
     }
 
     public void click(int x, int y) {
+        if(!gameOver) {
             Vector3 coord = layout.pixelToVector3(new Point(x, y));
             Hex h = board.map.get(coord);
 
@@ -39,6 +40,7 @@ public class GameController {
                 if (checkEnd(coord)) {
                     System.out.println(currentPlayer + " WINS!");
                     gameOver = true;
+                    currentPlayer = null;
                 }
 
                 AbstractPlayer temp = currentPlayer;
@@ -66,6 +68,7 @@ public class GameController {
                 currentPlayer = otherPlayer;
                 otherPlayer = temp;
             }
+        }
     }
 
     private boolean checkEnd(Vector3 coord) {

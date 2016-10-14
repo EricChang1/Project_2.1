@@ -18,7 +18,7 @@ import java.awt.event.KeyEvent;
 public class DesktopLauncher extends JFrame{
 	public static DesktopLauncher dkl;
 	private LwjglAWTCanvas canvas;
-	private JPanel opt, screen, top;
+	private JPanel opt, screen, top, RB1, RB2, BB1, BB2;
 	boolean paused, init;
 	private int boardW, boardH;
 
@@ -81,11 +81,34 @@ public class DesktopLauncher extends JFrame{
 				screen.add(boardView, BorderLayout.CENTER);
 				screen.setBorder(new EmptyBorder(280-i*20, 510-j*40 , 0 , 0));
 
+				RB1 = new JPanel();
+				RB1.setSize(10,720);
+				RB1.setBackground(Color.RED);
+				RB2 = new JPanel();
+				RB2.setSize(10,720);
+				RB2.setBackground(Color.RED);
+				BB1 = new JPanel();
+				BB1.setSize(1280,10);
+				BB1.setBackground(Color.BLUE);
+				BB2 = new JPanel();
+				BB2.setSize(1280,10);
+				BB2.setBackground(Color.BLUE);
+
+				JPanel center = new JPanel();
+				center.setLayout(new BorderLayout());
+				center.add(RB1, BorderLayout.WEST);
+				center.add(RB2, BorderLayout.EAST);
+				center.add(BB1, BorderLayout.NORTH);
+				center.add(BB2, BorderLayout.SOUTH);
+				center.add(screen, BorderLayout.CENTER);
+
 				top = new JPanel();
 				top.setPreferredSize(new Dimension(1280, 720));
 				top.setLayout(new BorderLayout());
-				top.add(screen, BorderLayout.CENTER);
+				//top.add(screen, BorderLayout.CENTER);
+				top.add(center, BorderLayout.CENTER);
 				top.add(opt, BorderLayout.EAST);
+				System.out.println(opt.getSize());
 				top.setDoubleBuffered(true);
 				add(top);
 				pack();
@@ -212,10 +235,32 @@ public class DesktopLauncher extends JFrame{
 		screen.add(boardView, BorderLayout.CENTER);
 		screen.setBorder(new EmptyBorder(280-boardW*20, 510-boardH*40 , 0 , 0));
 
+		RB1 = new JPanel();
+		RB1.setSize(10,720);
+		RB1.setBackground(Color.RED);
+		RB2 = new JPanel();
+		RB2.setSize(10,720);
+		RB2.setBackground(Color.RED);
+		BB1 = new JPanel();
+		BB1.setSize(1280,10);
+		BB1.setBackground(Color.BLUE);
+		BB2 = new JPanel();
+		BB2.setSize(1280,10);
+		BB2.setBackground(Color.BLUE);
+
+		JPanel center = new JPanel();
+		center.setLayout(new BorderLayout());
+		center.add(RB1, BorderLayout.WEST);
+		center.add(RB2, BorderLayout.EAST);
+		center.add(BB1, BorderLayout.NORTH);
+		center.add(BB2, BorderLayout.SOUTH);
+		center.add(screen, BorderLayout.CENTER);
+
 		top = new JPanel();
 		top.setPreferredSize(new Dimension(1280, 720));
 		top.setLayout(new BorderLayout());
-		top.add(screen, BorderLayout.CENTER);
+		//top.add(screen, BorderLayout.CENTER);
+		top.add(center, BorderLayout.CENTER);
 		top.add(opt, BorderLayout.EAST);
 		top.setDoubleBuffered(true);
 		add(top);

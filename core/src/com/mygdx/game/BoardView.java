@@ -32,7 +32,9 @@ public class BoardView extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                if(!controller.gameOver)
                 controller.click(e.getX(), e.getY());
+
             }
         });
 

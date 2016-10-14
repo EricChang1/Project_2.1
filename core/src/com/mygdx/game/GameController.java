@@ -16,6 +16,7 @@ public class GameController {
     public AbstractPlayer currentPlayer;
     public AbstractPlayer otherPlayer;
     private int turnCounter; //Used for swap rule
+    public boolean gameOver;
 
     private Board board;
     private Layout layout;
@@ -29,24 +30,25 @@ public class GameController {
     }
 
     public void click(int x, int y) {
+            Vector3 coord = layout.pixelToVector3(new Point(x, y));
+            Hex h = board.map.get(coord);
 
-        Vector3 coord = layout.pixelToVector3(new Point(x, y));
-        Hex h = board.map.get(coord);
+            if (h != null && h.getOwner() != null && turnCounter == 1) {
+                h.setOwner(currentPlayer);
 
-        if (h != null && h.getOwner() != null && turnCounter == 1) {
-            h.setOwner(currentPlayer);
+                if (checkEnd(coord)) {
+                    System.out.println(currentPlayer + " WINS!");
+                    gameOver = true;
+                }
 
-            if (checkEnd(coord))
-                System.out.println(currentPlayer + " WINS!");
+                AbstractPlayer temp = currentPlayer;
+                currentPlayer = otherPlayer;
+                otherPlayer = temp;
+                turnCounter++;
+            } else if (h != null && h.getOwner() == null) {
+                turnCounter++;
 
-            AbstractPlayer temp = currentPlayer;
-            currentPlayer = otherPlayer;
-            otherPlayer = temp;
-            turnCounter++;
-        }else if (h != null && h.getOwner() == null) {
-            turnCounter++;
-
-            h.setOwner(currentPlayer);
+                h.setOwner(currentPlayer);
 
             /*
             board.getNeighbours(coord).forEach(c -> {
@@ -55,13 +57,15 @@ public class GameController {
             });
             */
 
-            if (checkEnd(coord))
-                System.out.println(currentPlayer + " WINS!");
+                if (checkEnd(coord)) {
+                    System.out.println(currentPlayer + " WINS!");
+                    gameOver = true;
+                }
 
-            AbstractPlayer temp = currentPlayer;
-            currentPlayer = otherPlayer;
-            otherPlayer = temp;
-        }
+                AbstractPlayer temp = currentPlayer;
+                currentPlayer = otherPlayer;
+                otherPlayer = temp;
+            }
     }
 
     private boolean checkEnd(Vector3 coord) {
